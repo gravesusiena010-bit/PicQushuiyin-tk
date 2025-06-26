@@ -1,0 +1,16 @@
+# 高级图片去水印工具依赖包
+# 安装命令: pip install -r requirements.txt
+
+# 图像处理核心库
+opencv-python==4.8.1.78
+numpy==1.24.3
+Pillow==10.0.1
+
+# GUI界面库
+tkinterdnd2==0.3.0
+
+# 系统工具库
+pathlib2==2.3.7
+
+# 日志和时间处理
+python-dateutil==2.8.2
