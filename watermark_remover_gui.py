@@ -160,8 +160,32 @@ class WatermarkRemoverGUI:
         # 创建左侧控制面板，包含文件选择、参数设置等
         # 输入: [父容器] | 输出: [控制面板组件]
         """
-        self.control_frame = ttk.LabelFrame(parent, text="📁 控制面板", padding=15)
-        self.control_frame.pack(side='left', fill='y', padx=(0, 10))
+        # 创建外层框架
+        outer_frame = ttk.LabelFrame(parent, text="📁 控制面板", padding=5)
+        outer_frame.pack(side='left', fill='both', padx=(0, 10))
+        
+        # 创建可滚动的画布和框架
+        canvas = tk.Canvas(outer_frame, width=300)
+        scrollbar = ttk.Scrollbar(outer_frame, orient="vertical", command=canvas.yview)
+        self.control_frame = ttk.Frame(canvas)
+        
+        # 配置滚动
+        self.control_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+        
+        canvas.create_window((0, 0), window=self.control_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        
+        # 布局画布和滚动条
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        
+        # 绑定鼠标滚轮事件
+        def _on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        canvas.bind("<MouseWheel>", _on_mousewheel)
         
         # 文件选择区域
         file_frame = ttk.LabelFrame(self.control_frame, text="文件选择", padding=10)
@@ -241,16 +265,16 @@ class WatermarkRemoverGUI:
         
         # 文件列表
         list_frame = ttk.LabelFrame(self.control_frame, text="选中的文件", padding=10)
-        list_frame.pack(fill='both', expand=True)
+        list_frame.pack(fill='x', pady=(0, 10))
         
-        self.file_listbox = tk.Listbox(list_frame, height=8, 
+        self.file_listbox = tk.Listbox(list_frame, height=6, 
                                       font=('Microsoft YaHei', 9))
-        scrollbar = ttk.Scrollbar(list_frame, orient='vertical', 
-                                 command=self.file_listbox.yview)
-        self.file_listbox.configure(yscrollcommand=scrollbar.set)
+        list_scrollbar = ttk.Scrollbar(list_frame, orient='vertical', 
+                                      command=self.file_listbox.yview)
+        self.file_listbox.configure(yscrollcommand=list_scrollbar.set)
         
         self.file_listbox.pack(side='left', fill='both', expand=True)
-        scrollbar.pack(side='right', fill='y')
+        list_scrollbar.pack(side='right', fill='y')
     
     def create_preview_panel(self, parent):
         """
