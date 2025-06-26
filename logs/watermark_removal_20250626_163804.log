@@ -1,0 +1,9 @@
+2025-06-26 16:38:04,056 - INFO - 高级图片去水印工具启动
+2025-06-26 16:38:24,705 - INFO - 成功加载图片: D:/Dev/picture/02-PicQushuiyin-tk/demo_image.jpg, 尺寸: 400x300
+2025-06-26 16:38:24,706 - INFO - 使用手动选择的水印区域，面积: 20460 像素
+2025-06-26 16:38:24,728 - INFO - TELEA算法处理完成，耗时: 0.02秒
+2025-06-26 16:38:24,729 - INFO - 结果已保存到: D:/Dev/picture/02-PicQushuiyin-tk/demo_image_no_watermark.jpg
+2025-06-26 16:38:51,006 - INFO - 成功加载图片: D:/Dev/picture/02-PicQushuiyin-tk/demo.jpg, 尺寸: 500x400
+2025-06-26 16:38:51,007 - INFO - 使用手动选择的水印区域，面积: 6144 像素
+2025-06-26 16:38:51,015 - INFO - TELEA算法处理完成，耗时: 0.01秒
+2025-06-26 16:38:51,017 - INFO - 结果已保存到: D:/Dev/picture/02-PicQushuiyin-tk/demo_no_watermark.jpg
