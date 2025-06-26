@@ -94,6 +94,10 @@ class WatermarkRemoverGUI:
         self.quality_var = tk.IntVar(value=95)
         self.batch_mode_var = tk.BooleanVar(value=False)
         
+        # 水印选择变量
+        self.selection_mode_var = tk.StringVar(value='rectangle')
+        self.brush_size_var = tk.IntVar(value=10)
+        
         # 创建界面组件
         self.create_widgets()
         
@@ -471,6 +475,9 @@ class WatermarkRemoverGUI:
             
             # 保存当前图片信息
             self.current_image = cv2.imread(image_path)
+            if self.current_image is None:
+                raise ValueError(f"无法读取图片文件: {image_path}")
+            
             self.current_image_path = image_path
             self.mask = np.zeros(self.current_image.shape[:2], np.uint8)
             
@@ -488,7 +495,7 @@ class WatermarkRemoverGUI:
         """
         self.drawing = False
         self.rect_start = None
-        self.selection_mode = 'rectangle'  # 'rectangle' 或 'brush'
+        self.selection_mode = self.selection_mode_var.get()  # 从变量获取选择模式
         
         # 绑定鼠标事件
         self.original_canvas.bind('<Button-1>', self.on_mouse_down)
@@ -520,8 +527,6 @@ class WatermarkRemoverGUI:
         selection_frame = ttk.LabelFrame(algo_frame, text="水印选择", padding=10)
         selection_frame.pack(fill='x', pady=(0, 10))
         
-        self.selection_mode_var = tk.StringVar(value='rectangle')
-        
         ttk.Radiobutton(selection_frame, text="矩形选择", 
                        variable=self.selection_mode_var, value='rectangle',
                        command=self.change_selection_mode).pack(anchor='w')
@@ -535,7 +540,6 @@ class WatermarkRemoverGUI:
         brush_frame.pack(fill='x', pady=5)
         
         ttk.Label(brush_frame, text="画笔大小:").pack(side='left')
-        self.brush_size_var = tk.IntVar(value=10)
         ttk.Scale(brush_frame, from_=5, to=50, variable=self.brush_size_var, 
                  orient='horizontal', length=100).pack(side='left', padx=5)
         ttk.Label(brush_frame, textvariable=self.brush_size_var, width=3).pack(side='left')
