@@ -19,12 +19,12 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pyinstaller pillow opencv-python tk
+        pip install pyinstaller pillow opencv-python numpy
         if (Test-Path "requirements.txt") { pip install -r requirements.txt }
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --noconfirm --onedir --windowed --clean --name "PicQushuiyin" main.py
+        pyinstaller --noconfirm --onedir --windowed --clean --collect-all cv2 --collect-all PIL --name "PicQushuiyin" watermark_remover_gui.py
 
     - name: Upload EXE Artifact
       uses: actions/upload-artifact@v4
